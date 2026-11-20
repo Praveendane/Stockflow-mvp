@@ -24,3 +24,9 @@ Thumbs.db
 
 # Generated files
 generated/
+
+# Local AI coding tools
+.agents/
+.claude/
+.windsurf/
+skills-lock.json

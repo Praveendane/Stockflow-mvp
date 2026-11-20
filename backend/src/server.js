@@ -1,23 +1,31 @@
+
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
 
 import { prisma } from "./config/prisma.js";
 import authRoutes from "./routes/auth.routes.js";
+import productRoutes from "./routes/product.routes.js";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "./config/swagger.js";
-import productRoutes from "./routes/product.routes.js";
+import dashboardRoutes from "./routes/dashboard.routes.js";
+import settingsRoutes from "./routes/settings.routes.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/auth", authRoutes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Swagger documentation
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/settings", settingsRoutes);
 
-
+// Root route
 app.get("/", (req, res) => {
   res.json({
     message: "StockFlow API is running successfully!",
@@ -46,3 +54,15 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+// Graceful shutdown
+const shutdown = async () => {
+  console.log("Shutting down StockFlow API...");
+
+  await prisma.$disconnect();
+  process.exit(0);
+};
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
