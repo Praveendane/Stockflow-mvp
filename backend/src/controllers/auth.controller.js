@@ -160,3 +160,45 @@ export const login = async (req, res) => {
     });
   }
 };
+
+export const getMe = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.userId,
+      },
+      select: {
+        id: true,
+        email: true,
+        organizationId: true,
+        organization: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!user || user.organizationId !== req.user.organizationId) {
+      return res.status(401).json({
+        message: "User not found or invalid authentication",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Authenticated user",
+      user: {
+        id: user.id,
+        email: user.email,
+        organizationId: user.organizationId,
+        organizationName: user.organization.name,
+      },
+    });
+  } catch (error) {
+    console.error("Profile error:", error);
+
+    return res.status(500).json({
+      message: "Unable to fetch user profile",
+    });
+  }
+};
