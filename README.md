@@ -5,6 +5,18 @@ StockFlow is a full-stack inventory management application designed to help busi
 Built with React, Node.js, Express, PostgreSQL, and Prisma, StockFlow supports organization-based data isolation, secure authentication, product management, and configurable low-stock monitoring.
 
 ## Features
+## Application Screenshots
+
+### Login Page
+![StockFlow Login](docs/screenshots/login.png)
+
+### Inventory Dashboard
+![StockFlow Dashboard](docs/screenshots/dashboard.png)
+
+### Product Management
+![StockFlow Products](docs/screenshots/products.png)
+
+
 
 ### Authentication and Organization Management
 - Organization registration and user authentication.
