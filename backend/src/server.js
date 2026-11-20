@@ -13,7 +13,16 @@ import settingsRoutes from "./routes/settings.routes.js";
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5174",
+  "https://stockflow-3d1bhoqp0-praveendanes-projects.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+  })
+);
 app.use(express.json());
 
 // Swagger documentation
