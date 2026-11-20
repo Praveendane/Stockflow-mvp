@@ -6,6 +6,7 @@ import { prisma } from "./config/prisma.js";
 import authRoutes from "./routes/auth.routes.js";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "./config/swagger.js";
+import productRoutes from "./routes/product.routes.js";
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+
 
 app.get("/", (req, res) => {
   res.json({
